@@ -1,5 +1,6 @@
 using ElectronicMedRecord.Data;
 using ElectronicMedRecord.Models;
+using ElectronicMedRecord.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,8 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+// Register OpenAIService Service
+builder.Services.AddSingleton<OpenAIService>();
 
 var app = builder.Build();
 
@@ -63,8 +66,12 @@ app.UseRouting();
 app.UseSession(); // Use session middleware
 app.UseAuthorization();
 
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();

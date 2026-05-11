@@ -1,0 +1,65 @@
+﻿@if (TempData["ToastMessage"] != null)
+{
+    var toastType = TempData["ToastType"]?.ToString();
+
+    var bgClass = "bg-success";
+
+    switch (toastType)
+    {
+        case "error":
+            bgClass = "bg-danger";
+            break;
+
+        case "warning":
+            bgClass = "bg-warning";
+            break;
+
+        case "info":
+            bgClass = "bg-info";
+            break;
+    }
+
+    <div class="toast-container position-fixed top-0 end-0 p-3"
+         style="z-index:9999;">
+
+        <div id="appToast"
+             class="toast align-items-center text-white @bgClass border-0"
+             role="alert">
+
+            <div class="d-flex">
+                <div class="toast-body">
+                    @TempData["ToastMessage"]
+                </div>
+
+                <button type="button"
+                        class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast">
+                </button>
+            </div>
+        </div>
+    </div>
+    @if (TempData["ToastMessage"] != null && TempData["ToastMessage"].ToString() != "")
+    {
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+
+            var toastElement = document.getElementById('appToast');
+
+            if (toastElement) {
+
+                var toast = new bootstrap.Toast(toastElement, {
+                    delay: 3000
+                });
+
+                toast.show();
+            }
+        });
+        </script>
+        TempData["ToastMessage"] = "";
+    }
+    else
+    {
+        TempData["ToastMessage"] = "";
+    }
+}

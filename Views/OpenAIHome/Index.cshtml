@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "AI Text Suggestion";
+}
+
+<h2>AI Text Suggestion</h2>
+
+<textarea id="textInput"
+          rows="6"
+          cols="80"
+          placeholder="Start typing..."></textarea>
+
+<div style="margin-top:20px;">
+    <strong>Suggestion:</strong>
+    <div id="suggestionBox"
+         style="padding:10px;
+                border:1px solid #ccc;
+                background:#f5f5f5;">
+    </div>
+</div>
+
+<script>
+    let timeout = null;
+
+    document.getElementById("textInput")
+        .addEventListener("keyup", function () {
+
+        clearTimeout(timeout);
+
+        timeout = setTimeout(async () => {
+
+            const text = this.value;
+
+            if (text.length < 3)
+                return;
+
+            const response = await fetch('/OpenAIHome/Suggest', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    prompt: text
+                })
+            });
+
+            const data = await response.json();
+
+            document.getElementById("suggestionBox")
+                .innerText = data.suggestion;
+
+        }, 500);
+    });
+</script>

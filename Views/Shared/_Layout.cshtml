@@ -21,7 +21,7 @@
                     <img src="~/images/healthcare-logo.svg" alt="Healthcare Logo" style="height: 35px; width: 35px;">
                     <span>Healthcare</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" 
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
                         aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"><span></span></span>
                 </button>
@@ -31,6 +31,12 @@
                             var role = Context.Session.GetString("Role");
                             var isLoggedIn = !string.IsNullOrEmpty(role);
                         }
+
+                        <li class="nav-item">
+                            <a class="nav-link" >
+                                <i class="fas fa-microphone me-1"></i>Mic
+                            </a>
+                        </li>
 
                         @if (role == "Admin")
                         {
@@ -140,7 +146,7 @@
                         @if (isLoggedIn)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" 
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-user-circle me-1"></i>
                                     @(role == "Admin" ? "Admin" : role)
@@ -199,9 +205,11 @@
 
     <footer>
         <div class="container text-center">
-            <span>&copy; 2025 Healthcare System. All rights reserved.</span>
+            <span>&copy; 2026 Healthcare System. All rights reserved.</span>
         </div>
     </footer>
+
+    @Html.Partial("_Toast")
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

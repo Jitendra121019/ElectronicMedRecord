@@ -1,8 +1,10 @@
+using ElectronicMedRecord.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using System;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using ElectronicMedRecord.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace ElectronicMedRecord.Data
 {
@@ -24,11 +26,21 @@ namespace ElectronicMedRecord.Data
                     CreatedAt = DateTime.Now
                 };
                 adminUser.Password = hasher.HashPassword(adminUser, "Admin@123");
-                context.Users.Add(adminUser);
+
+                var adminUser2 = new User
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Email = "Jitendra@gmail.com",
+                    Role = "Admin",
+                    CreatedAt = DateTime.Now
+                };
+                adminUser2.Password = hasher.HashPassword(adminUser, "Admin@123");
+                context.Users.AddRange(adminUser,adminUser2);
 
                 // Doctors
                 var doctor1User = new User { Id = Guid.NewGuid().ToString(), Email = "doctor1@healthcare.com", Role = "Doctor", CreatedAt = DateTime.Now };
                 doctor1User.Password = hasher.HashPassword(doctor1User, "Doctor@123");
+
                 var doctor2User = new User { Id = Guid.NewGuid().ToString(), Email = "doctor2@healthcare.com", Role = "Doctor", CreatedAt = DateTime.Now };
                 doctor2User.Password = hasher.HashPassword(doctor2User, "Doctor@123");
                 context.Users.AddRange(doctor1User, doctor2User);
@@ -37,6 +49,7 @@ namespace ElectronicMedRecord.Data
                 {
                     Id = Guid.NewGuid().ToString(), UserId = doctor1User.Id, FirstName = "Doctor", LastName = " 1", Specialization = "Cardiology", Phone = "+123456789", Email = doctor1User.Email, ConsultationFee = 150.0, CreatedAt = DateTime.Now
                 };
+
                 var doctor2 = new Doctor
                 {
                     Id = Guid.NewGuid().ToString(), UserId = doctor2User.Id, FirstName = "Doctor", LastName = " 2", Specialization = "Neurology", Phone = "+123456789", Email = doctor2User.Email, ConsultationFee = 200.0, CreatedAt = DateTime.Now

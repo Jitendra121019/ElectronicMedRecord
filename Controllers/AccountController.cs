@@ -54,6 +54,10 @@ namespace ElectronicMedRecord.Controllers
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Invalid email or password.");
+
+                    TempData["ToastMessage"] = "Invalid email or password!";
+                    TempData["ToastType"] = "error";
+
                     return View(model);
                 }
 
@@ -61,6 +65,10 @@ namespace ElectronicMedRecord.Controllers
                 if (result == PasswordVerificationResult.Failed)
                 {
                     ModelState.AddModelError(string.Empty, "Invalid email or password.");
+
+                    TempData["ToastMessage"] = "Invalid email or password!";
+                    TempData["ToastType"] = "error";
+
                     return View(model);
                 }
 
@@ -70,7 +78,8 @@ namespace ElectronicMedRecord.Controllers
                 HttpContext.Session.SetString("UserEmail", user.Email);
 
                 _logger.LogInformation($"User {user.Email} logged in successfully.");
-
+                TempData["ToastMessage"] = "Login Successful!";
+                TempData["ToastType"] = "success";
                 // Redirect by role
                 return RedirectToDashboard(user.Role);
             }
@@ -112,6 +121,8 @@ namespace ElectronicMedRecord.Controllers
                 if (existingUser != null)
                 {
                     ModelState.AddModelError("Email", "This email is already registered.");
+                    TempData["ToastMessage"] = "This email is already registered.";
+                    TempData["ToastType"] = "error";
                     return View(model);
                 }
 
